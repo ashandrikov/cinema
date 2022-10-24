@@ -300,7 +300,10 @@ files:
         }
     }
   learner_created: false
-feedback_link: https://hyperskill.org/projects/133/stages/711/implement#comment
+- name: src/cinema/utils/TextColor.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/11107#comment
 status: Failed
 feedback:
   message: |-

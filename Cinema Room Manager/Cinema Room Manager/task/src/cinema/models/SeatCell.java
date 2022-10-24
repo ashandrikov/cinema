@@ -1,7 +1,5 @@
 package cinema.models;
 
-import lombok.Data;
-
 public class SeatCell {
     boolean isEmpty;
 

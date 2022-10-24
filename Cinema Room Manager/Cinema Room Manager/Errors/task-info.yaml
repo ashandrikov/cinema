@@ -626,9 +626,9 @@ files:
 - name: src/cinema/utils/InputValidator.java
   visible: true
   learner_created: true
-feedback_link: https://hyperskill.org/projects/133/stages/713/implement#comment
+feedback_link: https://hyperskill.org/learn/step/11109#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: Sun, 23 Oct 2022 17:32:59 UTC
-record: -1
+record: 5
