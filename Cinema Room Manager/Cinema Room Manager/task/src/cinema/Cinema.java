@@ -1,80 +1,136 @@
 package cinema;
 
-import java.util.Scanner;
+import cinema.models.SeatCell;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static cinema.utils.InputValidator.validateBookingInput;
+import static cinema.utils.InputValidator.validateInputGeneral;
+import static cinema.utils.InputValidator.validateInputMenu;
+import static cinema.utils.InputValidator.validateSizeHall;
+import static cinema.utils.StringPool.BOOK_ROW;
+import static cinema.utils.StringPool.BOOK_SEAT;
+import static cinema.utils.StringPool.CINEMA;
+import static cinema.utils.StringPool.MENU_0;
+import static cinema.utils.StringPool.MENU_1;
+import static cinema.utils.StringPool.MENU_2;
+import static cinema.utils.StringPool.MENU_3;
+import static cinema.utils.StringPool.STATS_COUNT;
+import static cinema.utils.StringPool.STATS_CURRENT_INCOME;
+import static cinema.utils.StringPool.STATS_PERCENTAGE;
+import static cinema.utils.StringPool.STATS_TOTAL_INCOME;
+import static cinema.utils.StringPool.TICKET_PRICE;
+import static cinema.utils.StringPool.TOTAL_ROWS;
+import static cinema.utils.StringPool.TOTAL_SEATS;
+import static cinema.utils.StringPool.WRONG_INPUT;
+import static cinema.utils.StringPool.WRONG_INPUT_MENU;
+import static cinema.utils.StringPool.WRONG_INPUT_PURCHASED;
 
 public class Cinema {
 
     private static int rows;
     private static int seats;
-    private static String[][] array;
+    private static SeatCell[][] hall;
     private static boolean isSmallRoom;
     private static int chosenRow;
     private static int chosenSeat;
+    private static int numberPurchasedTickets;
+    private static double percentage;
+    private static int currentIncome;
+    private static int totalIncome;
+
+    private List <SeatCell> seatCells;
 
     public static void main(String[] args) {
-        readInput();
-        showIncome();
-        fillArray();
+        Cinema myCinema = new Cinema();
+        myCinema.createCinema();
         while (true) {
-            invitation();
+            if (!myCinema.invitation()) {
+                break;
+            }
         }
-//        printAll();
-//        printBookInfo();
-//        showTicketPrice();
-//        bookPlace();
+    }
+
+    private void createCinema() {
+        knowRowsSeatsCount();
+        countTotalIncome();
+        createSeatCells();
     }
 
 
-    private static void readInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the number of rows:\n");
-        rows = scanner.nextInt();
-        System.out.print("Enter the number of seats in each row:\n");
-        seats = scanner.nextInt();
+    private void knowRowsSeatsCount() {
+        while (true){
+            System.out.print(TOTAL_ROWS);
+            rows = validateSizeHall();
+            System.out.print(TOTAL_SEATS);
+            seats = validateSizeHall();
+            if (rows != -1 && seats != -1){
+                break;
+            }
+            System.out.println(WRONG_INPUT);
+        }
         System.out.println();
     }
 
-    private static void showIncome() {
-        int result;
+    private void countTotalIncome() {
         if (rows * seats <= 60) {
-            result = rows * seats * 10;
+            totalIncome = rows * seats * 10;
             isSmallRoom = true;
         } else {
             int firstHalf = rows / 2;
             int secondHalf = rows - firstHalf;
-            result = firstHalf * seats * 10 + secondHalf * seats * 8;
+            totalIncome = firstHalf * seats * 10 + secondHalf * seats * 8;
             isSmallRoom = false;
         }
-//        System.out.println("Total income:\n$" + result);
     }
 
-    private static void invitation() {
-        System.out.println("1. Show the seats");
-        System.out.println("2. Buy a ticket");
-        System.out.println("0. Exit");
-        Scanner scanner = new Scanner(System.in);
-        int userInput = scanner.nextInt();
-        System.out.println();
+    private void createSeatCells() {
+        SeatCell cell;
+        seatCells = new ArrayList<>();
+        hall = new SeatCell[rows][seats];
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= seats; j++) {
+                cell = new SeatCell();
+                cell.setEmpty(true);
+                hall[i-1][j-1] = cell;
+            }
+        }
+    }
+
+    private boolean invitation() {
+        System.out.println(MENU_1);
+        System.out.println(MENU_2);
+        System.out.println(MENU_3);
+        System.out.println(MENU_0);
+        int userInput = validateInputMenu();
 
         switch (userInput) {
             case 1 -> printAll();
             case 2 -> printBookInfo();
-            case 0 -> System.exit(500);
-            default -> throw new IllegalArgumentException();
+            case 3 -> showStatistic();
+            case 0 -> {
+                return false;
+            }
+            default -> {
+                System.out.println(WRONG_INPUT_MENU);
+            }
         }
+        return true;
     }
 
-    private static void printAll() {
+
+    private void printAll() {
         printHeader();
         printFirstLine();
-        printArray();
+        printHall();
     }
 
-    private static void printHeader() {
-        System.out.println("Cinema:");
+    private void printHeader() {
+        System.out.println(CINEMA);
     }
 
-    private static void printFirstLine() {
+    private void printFirstLine() {
         System.out.print("  ");
         for (int i = 1; i <= seats; i++) {
             System.out.print(i + " ");
@@ -82,46 +138,70 @@ public class Cinema {
         System.out.println();
     }
 
-    private static void fillArray() {
-        array = new String[rows][seats];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < seats; j++) {
-                array[i][j] = "S";
-            }
-        }
-    }
-
-    private static void printArray() {
-        for (int i = 0; i < rows; i++) {
-            System.out.print(i + 1 + " ");
-            for (int j = 0; j < seats; j++) {
-                System.out.print(array[i][j] + " ");
+    private void printHall() {
+        for (int i = 1; i <= rows; i++) {
+            System.out.print(i + " ");
+            for (int j = 1; j <= seats; j++) {
+                if (hall[i-1][j-1].isEmpty()) {
+                    System.out.print("S ");
+                } else {
+                    System.out.print("B ");
+                }
             }
             System.out.println();
         }
         System.out.println();
     }
 
-    private static void printBookInfo() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter a row number:\n");
-        chosenRow = scanner.nextInt();
-        System.out.print("Enter a seat number in that row:\n");
-        chosenSeat = scanner.nextInt();
+    private void printBookInfo() {
+        while (true) {
+            chosenRow = 0;
+            chosenSeat = 0;
+            System.out.print(BOOK_ROW);
+            chosenRow = validateBookingInput(rows);
+            System.out.print(BOOK_SEAT);
+            chosenSeat = validateBookingInput(seats);
+            if (chosenRow == -1 || chosenSeat == -1){
+                System.out.println(WRONG_INPUT);
+                continue;
+            }
+            if (!hall[chosenRow-1][chosenSeat-1].isEmpty()) {
+                System.out.println(WRONG_INPUT_PURCHASED);
+                continue;
+            }
+            break;
+        }
         showTicketPrice();
         bookPlace();
     }
 
-    private static void showTicketPrice() {
+    private void showTicketPrice() {
         int price = isSmallRoom ? 10 : chosenRow <= rows / 2 ? 10 : 8;
-        System.out.printf("Ticket price: $%d", price);
+        System.out.printf(TICKET_PRICE, price);
+        currentIncome += price;
         System.out.println();
     }
 
-    private static void bookPlace() {
-        array[chosenRow - 1][chosenSeat - 1] = "B";
+    private void bookPlace() {
+        hall[chosenRow - 1][chosenSeat - 1].setEmpty(false);
+        numberPurchasedTickets++;
+        percentage = numberPurchasedTickets == 0
+                ? 0
+                : (double) numberPurchasedTickets * 100 / (rows * seats);
         System.out.println();
         printAll();
+    }
+
+    private void showStatistic() {
+        System.out.printf(STATS_COUNT, numberPurchasedTickets);
+        System.out.println();
+        System.out.printf(STATS_PERCENTAGE, percentage);
+        System.out.println();
+        System.out.printf(STATS_CURRENT_INCOME, currentIncome);
+        System.out.println();
+        System.out.printf(STATS_TOTAL_INCOME, totalIncome);
+        System.out.println();
+        System.out.println();
     }
 
 }

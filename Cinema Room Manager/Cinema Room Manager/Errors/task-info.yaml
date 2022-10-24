@@ -614,6 +614,21 @@ files:
         }
     }
   learner_created: false
+- name: src/cinema/models/SeatCell.java
+  visible: true
+  learner_created: true
+- name: src/cinema/utils/Printer.java
+  visible: true
+  learner_created: true
+- name: src/cinema/utils/StringPool.java
+  visible: true
+  learner_created: true
+- name: src/cinema/utils/InputValidator.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/133/stages/713/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sun, 23 Oct 2022 17:32:59 UTC
 record: -1
