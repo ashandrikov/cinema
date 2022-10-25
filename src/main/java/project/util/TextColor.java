@@ -11,10 +11,6 @@ public enum TextColor {
         this.ansiCode = ansiCode;
     }
 
-    public void setAnsi_code(String ansiCode) {
-        this.ansiCode = ansiCode;
-    }
-
     @Override
     public String toString(){
         return this.ansiCode;

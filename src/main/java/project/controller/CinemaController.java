@@ -25,17 +25,17 @@ import static project.util.StringPool.WRONG_INPUT_PURCHASED;
 
 public class CinemaController extends Thread{
 
-    private static int rows;
-    private static int seats;
-    private static SeatCell[][] hall;
-    private static boolean isSmallRoom;
-    private static int chosenRow;
-    private static int chosenSeat;
+    private int rows;
+    private int seats;
+    private SeatCell[][] hall;
+    private boolean isSmallRoom;
+    private int chosenRow;
+    private int chosenSeat;
 
-    private static int numberPurchasedTickets;
-    private static double percentage;
-    private static int currentIncome;
-    private static int totalIncome;
+    private int numberPurchasedTickets;
+    private double percentage;
+    private int currentIncome;
+    private int totalIncome;
 
     @Override
     public void run() {
@@ -113,8 +113,6 @@ public class CinemaController extends Thread{
 
     private void printBookInfo() {
         while (true) {
-            chosenRow = 0;
-            chosenSeat = 0;
             System.out.print(BOOK_ROW);
             chosenRow = validateBookingInput(rows);
             System.out.print(BOOK_SEAT);
@@ -134,7 +132,13 @@ public class CinemaController extends Thread{
     }
 
     private void showTicketPrice() {
-        int price = isSmallRoom ? 10 : chosenRow <= rows / 2 ? 10 : 8;
+        int price;
+        if (isSmallRoom) {
+            price = 10;
+        } else {
+            if (chosenRow <= rows / 2) price = 10;
+            else price = 8;
+        }
         currentIncome += price;
         System.out.printf(TICKET_PRICE, price);
     }

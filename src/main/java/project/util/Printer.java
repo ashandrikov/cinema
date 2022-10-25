@@ -8,6 +8,11 @@ import static project.util.TextColor.PURPLE;
 import static project.util.TextColor.RESET;
 
 public class Printer {
+
+    private Printer() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static void printAll(int rows, int seats, SeatCell[][] hall) {
         printFirstLine(seats);
         printHall(rows, seats, hall);
@@ -27,7 +32,7 @@ public class Printer {
             System.out.print(i + " ");
             for (int j = 1; j <= seats; j++) {
                 if (hall[i-1][j-1].isEmpty()) {
-                    System.out.print(GREEN + "s " + RESET);
+                    System.out.print(GREEN + "S " + RESET);
                 } else {
                     System.out.print(PURPLE + "B " + RESET);
                 }

@@ -7,11 +7,13 @@ import static project.util.StringPool.WRONG_INPUT;
 
 public class InputValidator {
 
-    private static Scanner scanner;
+    private InputValidator() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static int validateInputGeneral(){
         int result;
-        scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         try{
             result = Integer.parseInt(String.valueOf(scanner.nextInt()));
         } catch (NumberFormatException | InputMismatchException e) {

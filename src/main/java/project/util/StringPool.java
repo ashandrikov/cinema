@@ -21,4 +21,8 @@ public class StringPool {
     public static final String TOTAL_ROWS = "Enter the number of rows: (1-15)\n";
     public static final String TOTAL_SEATS = "Enter the number of seats in each row: (1-15)\n";
     public static final String WRONG_INPUT_MENU = "You should choose 0-3\n";
+
+    private StringPool() {
+        throw new IllegalStateException("Utility class");
+    }
 }
