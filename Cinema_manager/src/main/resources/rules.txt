@@ -1,0 +1,2 @@
+1. You create cinema hall by input number of rows and seats in it (from 1 to 15);
+2. You have menu with 4 options (1 - show scheme of seats [S - free, B - booked], 2 - buy a ticket, 3 - show statistics, 0 -exit).
