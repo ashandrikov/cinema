@@ -27,7 +27,7 @@ public class Printer {
             System.out.print(i + " ");
             for (int j = 1; j <= seats; j++) {
                 if (hall[i-1][j-1].isEmpty()) {
-                    System.out.print(GREEN + "S " + RESET);
+                    System.out.print(GREEN + "s " + RESET);
                 } else {
                     System.out.print(PURPLE + "B " + RESET);
                 }
